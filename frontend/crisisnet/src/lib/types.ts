@@ -1,0 +1,74 @@
+export type Priority = "P1" | "P2" | "P3";
+
+export type IncidentStatus = "active" | "in_progress" | "monitoring" | "resolved";
+
+export interface Incident {
+  id: string;
+  event: string;
+  severity: string;
+  urgency: string;
+  certainty: string;
+  headline: string;
+  location: string;
+  alert_sent: string;
+  effective_at: string;
+  expires: string;
+  source: string;
+  /* display fields — derived by the API layer */
+  description: string;
+  priority: Priority;
+  timestamp: string;
+  isNew?: boolean;
+  lat?: number;
+  lng?: number;
+  status?: IncidentStatus;
+}
+
+export type ResourceType = "shelter";
+export type ResourceStatus = "deployed" | "available" | "en_route";
+
+export interface Resource {
+  id?: string;
+  name: string;
+  type: "shelter";
+  address: string;
+  lat: string;
+  lng: string;
+  distance_km: string;
+  status?: ResourceStatus;
+  assignedTo?: string;
+}
+
+export interface AgentStatus {
+  id: string;
+  name: string;
+  shortName: string;
+  icon: string;
+  active: boolean;
+  last_action: string;
+  actions: string[];
+  description: string;
+}
+
+export interface HistoricalEvent {
+  name: string;
+  year: number;
+  incidents: number;
+  resources: number;
+}
+
+export interface CommMessage {
+  type: string;
+  body: string;
+  time: string;
+  priority: "high" | "medium" | "low";
+}
+
+export const PRIORITY_CONFIG: Record<
+  Priority,
+  { color: string; bg: string; label: string }
+> = {
+  P1: { color: "#ff3b3b", bg: "rgba(255,59,59,0.12)", label: "CRITICAL" },
+  P2: { color: "#ff9f1a", bg: "rgba(255,159,26,0.12)", label: "HIGH" },
+  P3: { color: "#ffd43b", bg: "rgba(255,212,59,0.12)", label: "MODERATE" },
+};
